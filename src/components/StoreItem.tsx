@@ -1,12 +1,22 @@
-import { Card } from "react-bootstrap";
+import { Card, Button } from "react-bootstrap";
 import { formatCurrency } from "../utilites/fomatCurrency";
+import { useShoppingCart } from "../context/ShoppingCartContext";
+
 type storeItemProps = {
   id: number;
   name: string;
   price: number;
   imgUrl: string;
 };
+
 export function StoreItem({ id, name, price, imgUrl }: storeItemProps) {
+  const {
+    getItemQuantity,
+    increaseCartQuantity,
+    decreaseCartQuantity,
+    removeFromCart,
+  } = useShoppingCart();
+  const quantity = getItemQuantity(id);
   return (
     <Card className="h-100">
       <Card.Img
@@ -18,9 +28,9 @@ export function StoreItem({ id, name, price, imgUrl }: storeItemProps) {
       <Card.Body className="d-flex flex-column">
         <Card.Title className="d-flex justify-content-between align-items-baseline mb-4">
           <span className="fs-2">{name}</span>
-          {/* <span className="ms-2 text-muted">{formatCurrency(price)}</span> */}
+          <span className="ms-2 text-muted">{formatCurrency(price)}</span>
         </Card.Title>
-        {/* <div className="mt-auto">
+        <div className="mt-auto">
           {quantity === 0 ? (
             <Button className="w-100" onClick={() => increaseCartQuantity(id)}>
               + Add To Cart
@@ -49,7 +59,7 @@ export function StoreItem({ id, name, price, imgUrl }: storeItemProps) {
               </Button>
             </div>
           )}
-        </div> */}
+        </div>
       </Card.Body>
     </Card>
   );
